@@ -1,0 +1,127 @@
+[gd_scene load_steps=20 format=3 uid="uid://bsrys2knyfyny"]
+
+[ext_resource type="Script" path="res://scripts/menu/menu.gd" id="1_d5f4w"]
+[ext_resource type="Texture2D" uid="uid://dxaai602ett4a" path="res://menu/arrow/0.png" id="2_8xa40"]
+[ext_resource type="Script" path="res://scripts/menu/camera.gd" id="3_31ru8"]
+[ext_resource type="Texture2D" uid="uid://pubsodbjt48y" path="res://menu/arrow/1.png" id="3_ikmob"]
+[ext_resource type="ArrayMesh" uid="uid://bw27d2atjkpvq" path="res://menu/models/untitled.obj" id="3_ikugm"]
+[ext_resource type="Script" path="res://scripts/menu/flashlight.gd" id="3_ql0fa"]
+[ext_resource type="Texture2D" uid="uid://buvr41d3dre74" path="res://menu/arrow/2.png" id="4_n4b70"]
+[ext_resource type="Script" path="res://scripts/menu/arrow.gd" id="6_8v1jt"]
+[ext_resource type="Texture2D" uid="uid://d2tdbfgshe6oq" path="res://menu/arrow/3.png" id="7_73wng"]
+[ext_resource type="Texture2D" uid="uid://cnhl3ku8fglk5" path="res://menu/options/exit.png" id="8_ckg43"]
+[ext_resource type="Texture2D" uid="uid://b5j3euvtjlobl" path="res://menu/arrow/4.png" id="8_h2dgy"]
+[ext_resource type="Texture2D" uid="uid://biv1xo4u1vxqs" path="res://menu/options/play.png" id="9_1jrcx"]
+[ext_resource type="Texture2D" uid="uid://bqrd4fsbu75dp" path="res://menu/arrow/5.png" id="9_kdkmq"]
+[ext_resource type="Texture2D" uid="uid://cneddhopa3ii1" path="res://menu/arrow/6.png" id="10_u7pvt"]
+[ext_resource type="Texture2D" uid="uid://f1ukw6bjsvjx" path="res://menu/arrow/7.png" id="11_0ktwe"]
+[ext_resource type="Texture2D" uid="uid://cxn45okmacqb4" path="res://menu/options/options.png" id="11_m7d4i"]
+[ext_resource type="Texture2D" uid="uid://d152e8hpnmqfx" path="res://menu/options/credits.png" id="12_kso20"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0qwqo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8xa40")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ikmob")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_n4b70")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_73wng")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_h2dgy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_kdkmq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_u7pvt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_0ktwe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ivpj"]
+size = Vector2(163, 372)
+
+[node name="menu" type="Node3D" node_paths=PackedStringArray("camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0781403, -1.90735e-06, 0.0182419)
+script = ExtResource("1_d5f4w")
+camera = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
+script = ExtResource("3_31ru8")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D" node_paths=PackedStringArray("camera", "spotlight", "raycast")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00566387, -0.08085, 0.000157118)
+light_energy = 0.273
+light_specular = 0.0
+spot_range = 4096.0
+spot_attenuation = 1e-05
+spot_angle = 40.45
+spot_angle_attenuation = 3.4822
+script = ExtResource("3_ql0fa")
+camera = NodePath("..")
+spotlight = NodePath(".")
+raycast = NodePath("../../RayCast3D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="arrowl" type="AnimatedSprite2D" parent="Camera2D"]
+position = Vector2(-500, 2.08165e-12)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_0qwqo")
+frame_progress = 0.906797
+
+[node name="Area2D" type="Area2D" parent="Camera2D/arrowl"]
+script = ExtResource("6_8v1jt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/arrowl/Area2D"]
+position = Vector2(-81.5, 14)
+shape = SubResource("RectangleShape2D_0ivpj")
+
+[node name="arrowr" type="AnimatedSprite2D" parent="Camera2D"]
+position = Vector2(490, 2.08165e-12)
+rotation = 3.14159
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_0qwqo")
+frame_progress = 0.635433
+
+[node name="Area2D" type="Area2D" parent="Camera2D/arrowr"]
+script = ExtResource("6_8v1jt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/arrowr/Area2D"]
+position = Vector2(-81.5, 14)
+shape = SubResource("RectangleShape2D_0ivpj")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+
+[node name="menuModel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.253369, 2.04636e-12, 0.250094)
+mesh = ExtResource("3_ikugm")
+
+[node name="play" type="Sprite3D" parent="menuModel"]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -0.854694, 1.6737, -6.89247)
+texture = ExtResource("9_1jrcx")
+
+[node name="exit" type="Sprite3D" parent="menuModel"]
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, -1.5246e-23, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0.384663, 0.637809, 4.06628)
+texture = ExtResource("8_ckg43")
+
+[node name="options" type="Sprite3D" parent="menuModel"]
+transform = Transform3D(-1, 3.48787e-16, 8.74228e-08, 3.48787e-16, 1, -3.48787e-16, -8.74228e-08, -3.48787e-16, -1, 6.72996, 1.89137, 0.957148)
+texture = ExtResource("11_m7d4i")
+
+[node name="credits" type="Sprite3D" parent="menuModel"]
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, -5.94941, 1.6737, 0.948769)
+texture = ExtResource("12_kso20")

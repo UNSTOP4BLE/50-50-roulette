@@ -53,14 +53,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ivpj"]
 size = Vector2(163, 372)
 
-[node name="menu" type="Node3D" node_paths=PackedStringArray("camera", "arrowl", "arrowr", "arrAreaL", "arrAreaR")]
+[node name="menu" type="Node3D" node_paths=PackedStringArray("camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0781403, -1.90735e-06, 0.0182419)
 script = ExtResource("1_d5f4w")
 camera = NodePath("Camera3D")
-arrowl = NodePath("Camera2D/arrowl")
-arrowr = NodePath("Camera2D/arrowr")
-arrAreaL = NodePath("Camera2D/arrowl/Area2D")
-arrAreaR = NodePath("Camera2D/arrowr/Area2D")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)

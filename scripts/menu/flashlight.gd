@@ -5,7 +5,16 @@ extends SpotLight3D
 @export var spotlight : SpotLight3D
 @export var raycast : RayCast3D
 
+var brightness = 0
+func _ready():
+	brightness = spotlight.light_energy;
+	
 func _process(delta: float) -> void:
+	var rng = RandomNumberGenerator.new()
+	if (rng.randi_range(0, 5) == 1):
+		spotlight.light_energy = brightness
+	if (rng.randi_range(0, 10) == 1):
+		spotlight.light_energy = rng.randf_range(0.1, brightness)
 	# Get the mouse position
 	var mouse_pos = get_viewport().get_mouse_position()
 	
@@ -20,7 +29,7 @@ func _process(delta: float) -> void:
 	# Cast the ray
 	raycast.force_raycast_update()
 
-	if raycast.is_colliding():
+	if (raycast.is_colliding()):
 		# Get the collision point
 		var collision_point = raycast.get_collision_point()
 		

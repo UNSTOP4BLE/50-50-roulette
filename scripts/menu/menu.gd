@@ -22,6 +22,7 @@ var menu_state = 0
 
 var MENU_STATE_HOME = 0
 var MENU_STATE_OPTSELECTED = 1
+var MENU_STATE_SELECT = 2
 
 func _ready():
 	print("test start")   
@@ -43,34 +44,27 @@ func updateCamera(delta):
 	camera.rotation_degrees.y = lerp(float(camera.rotation_degrees.y), float(cameraX), float(delta * camera.CAMERA_SPEED/2))
 	camera.rotation_degrees.x = lerp(float(camera.rotation_degrees.x), float(cameraY), float(delta * camera.CAMERA_SPEED/2))
 
-func updateLamp():
+#func updateLamp():
 	#var rng = RandomNumberGenerator.new()	
 	#if (rng.randi_range(0, 5) == 1):
 #		lamp.visible = true
 #	if (rng.randi_range(0, 5) == 1):
 #		lamp.visible = !lamp.visible
-		print("flicker lamp")
+#		print("flicker lamp")
 func _process(delta: float) -> void:
 	arrow_playAnim(arrowl, arrAreaL)
 	arrow_playAnim(arrowr, arrAreaR)
 
 	#back/accept
-	if (menu_state == MENU_STATE_HOME and Input.is_action_just_pressed("ui_accept") or clickarea.justclicked):
+	if ((menu_state == MENU_STATE_HOME or menu_state == MENU_STATE_OPTSELECTED) and (Input.is_action_just_pressed("ui_accept") or clickarea.justclicked)):
 		if (menu_state == MENU_STATE_OPTSELECTED):
-			if (selection == 0): #play
-				get_tree().quit()
-			elif (selection == 1): #options
-				get_tree().quit()
-			elif (selection == 2): #exit
-				get_tree().quit()
-			elif (selection == 3): #credits
-				get_tree().quit()
-				
-		arrow_togglevisible()
+			menu_state = MENU_STATE_SELECT
+			return
 		menu_state = MENU_STATE_OPTSELECTED
-	elif (menu_state == MENU_STATE_OPTSELECTED and Input.is_action_just_pressed("ui_text_backspace") or clickarea.justleftclicked):
+		arrow_hide()
+	elif (menu_state == MENU_STATE_OPTSELECTED and (Input.is_action_just_pressed("ui_text_backspace") or clickarea.justleftclicked)):
 		menu_state = MENU_STATE_HOME
-		arrow_togglevisible()
+		arrow_visible()
 		
 	if (menu_state == MENU_STATE_OPTSELECTED):
 		if (selection == 0): #play
@@ -100,6 +94,22 @@ func _process(delta: float) -> void:
 				changecam = true
 			camPos = Vector3(-3.5, 2, -1)
 			cameraX = -180-45
+	
+	if (menu_state == MENU_STATE_SELECT):
+			if ($Camera3D/SpotLight3D.light_energy <= 0.02 and $Camera3D/lamp.light_energy <= 0.02):
+				if (selection == 0): #play
+					get_tree().change_scene_to_file("res://scenes/playstate.tscn")
+				elif (selection == 1): #options
+					get_tree().quit()
+				elif (selection == 2): #exit
+					get_tree().quit()
+				elif (selection == 3): #credits
+					get_tree().quit()
+			$Camera3D/SpotLight3D.light_energy = lerp(float($Camera3D/SpotLight3D.light_energy), float(0), float(delta * 2)) 
+			$Camera3D/lamp.light_energy = lerp(float($Camera3D/lamp.light_energy), float(0), float(delta * 2)) 
+	
+	else:
+		$Camera3D/SpotLight3D.flicker()
 			
 	#reset
 	if (menu_state == MENU_STATE_HOME):
@@ -136,13 +146,16 @@ func _process(delta: float) -> void:
 	
 	#update camera
 	updateCamera(delta)
-	updateLamp()
 	pass
 
 #arrow functions 
-func arrow_togglevisible():	
-	arrowl.visible = !arrowl.visible
-	arrowr.visible = !arrowr.visible
+func arrow_hide():	
+	arrowl.visible = false
+	arrowr.visible = false
+	
+func arrow_visible():	
+	arrowl.visible = true
+	arrowr.visible = true
 
 func arrow_playAnim(arrow : AnimatedSprite2D, area : Area2D):
 	if (area.is_hovered):

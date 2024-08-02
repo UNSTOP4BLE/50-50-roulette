@@ -8,13 +8,15 @@ extends SpotLight3D
 var brightness = 0
 func _ready():
 	brightness = spotlight.light_energy;
-	
-func _process(delta: float) -> void:
+
+func flicker():
 	var rng = RandomNumberGenerator.new()
 	if (rng.randi_range(0, 5) == 1):
 		spotlight.light_energy = brightness
 	if (rng.randi_range(0, 10) == 1):
 		spotlight.light_energy = rng.randf_range(0.1, brightness)
+
+func _process(delta: float) -> void:
 	# Get the mouse position
 	var mouse_pos = get_viewport().get_mouse_position()
 	

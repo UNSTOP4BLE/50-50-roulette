@@ -18,6 +18,14 @@ func _process(delta):
 	justleftclicked = false;
 	
 func _on_area2d_input_event(viewport, event, shape_idx):
+	if (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT):
+		if (event.pressed):
+			if (is_hovered):
+				leftclicked = true
+		else:
+			if (leftclicked and is_hovered):
+				justleftclicked = true
+			leftclicked = false
 	if (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT):
 		if (event.pressed):
 			if (is_hovered):
@@ -26,18 +34,11 @@ func _on_area2d_input_event(viewport, event, shape_idx):
 			if (clicked and is_hovered):
 				justclicked = true
 			clicked = false
-	elif (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT):
-		if (event.pressed):
-			if (is_hovered):
-				leftclicked = true
-		else:
-			if (leftclicked and is_hovered):
-				justleftclicked = true
-			leftclicked = false
 
 func _on_mouse_entered():
 	is_hovered = true
 
 func _on_mouse_exited():
 	is_hovered = false
+	leftclicked = false
 	clicked = false

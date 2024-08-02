@@ -62,13 +62,7 @@ arrowr = NodePath("Camera2D/arrowr")
 arrAreaL = NodePath("Camera2D/arrowl/Area2D")
 arrAreaR = NodePath("Camera2D/arrowr/Area2D")
 clickarea = NodePath("Camera2D/clicktostart")
-lamp = NodePath("lamp")
-
-[node name="lamp" type="SpotLight3D" parent="."]
-transform = Transform3D(1, -6.97574e-16, -1.5246e-23, -1.5246e-23, -4.37114e-08, 1, -6.97574e-16, -1, -4.37114e-08, 0, 4.82242, 0)
-light_energy = 0.111
-spot_range = 6.169
-spot_angle = 180.0
+lamp = NodePath("Camera3D/lamp")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -89,6 +83,12 @@ raycast = NodePath("../RayCast3D")
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="lamp" type="SpotLight3D" parent="Camera3D"]
+transform = Transform3D(1, -6.97574e-16, -1.52459e-23, -1.5246e-23, -4.37114e-08, 1, -6.97574e-16, -1, -4.37114e-08, 0, 2.82242, 0)
+light_energy = 0.111
+spot_range = 4096.0
+spot_angle = 180.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -135,7 +135,7 @@ transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-
 texture = ExtResource("14_yctyo")
 
 [node name="exit" type="Sprite3D" parent="menuModel"]
-transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, -1.5246e-23, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0.25, 0.6, 5.5)
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, -1.5246e-23, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0.25, 0.6, 4)
 texture = ExtResource("15_rrvvl")
 
 [node name="options" type="Sprite3D" parent="menuModel"]
